@@ -1,0 +1,256 @@
+# CocoaFair Product Catalog Embed
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CocoaFair Collection</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#faf8f5;
+padding:30px;
+}
+
+.catalog-container{
+max-width:1400px;
+margin:auto;
+}
+
+.catalog-header{
+text-align:center;
+margin-bottom:30px;
+}
+
+.catalog-header h1{
+font-size:2.5rem;
+color:#3b2417;
+margin-bottom:10px;
+}
+
+.catalog-header p{
+color:#666;
+}
+
+.filters{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:30px;
+}
+
+.filters input,
+.filters select{
+padding:14px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+flex:1;
+min-width:220px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:25px;
+}
+
+.product-card{
+background:white;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.product-card:hover{
+transform:translateY(-5px);
+}
+
+.product-image{
+width:100%;
+height:260px;
+object-fit:cover;
+}
+
+.product-content{
+padding:20px;
+}
+
+.product-category{
+font-size:12px;
+text-transform:uppercase;
+color:#8d6b52;
+letter-spacing:1px;
+margin-bottom:8px;
+}
+
+.product-name{
+font-size:20px;
+font-weight:bold;
+margin-bottom:10px;
+color:#3b2417;
+}
+
+.product-description{
+font-size:14px;
+color:#666;
+margin-bottom:15px;
+}
+
+.product-price{
+font-size:20px;
+font-weight:bold;
+color:#3b2417;
+}
+</style>
+</head>
+
+<body>
+
+<div class="catalog-container">
+
+<div class="catalog-header">
+<h1>Explore Our Collection</h1>
+<p>Bean-to-bar chocolate crafted in Africa.</p>
+</div>
+
+<div class="filters">
+<input type="text" id="searchInput" placeholder="Search products...">
+
+<select id="categoryFilter">
+<option value="">All Categories</option>
+<option value="Bars">Chocolate Bars</option>
+<option value="Treats">Chocolate Treats</option>
+<option value="Drinking">Drinking Chocolate</option>
+</select>
+</div>
+
+<div class="products" id="productGrid"></div>
+
+</div>
+
+<script>
+
+const products = [
+
+{
+name:"Product Name",
+category:"Bars",
+price:"R89",
+image:"IMAGE_URL",
+description:"Premium bean-to-bar chocolate."
+},
+
+{
+name:"Product Name",
+category:"Treats",
+price:"R59",
+image:"IMAGE_URL",
+description:"Luxury chocolate treat."
+},
+
+{
+name:"Product Name",
+category:"Drinking",
+price:"R129",
+image:"IMAGE_URL",
+description:"Rich drinking chocolate."
+}
+
+];
+
+const productGrid=document.getElementById("productGrid");
+
+function renderProducts(items){
+
+productGrid.innerHTML="";
+
+items.forEach(product=>{
+
+productGrid.innerHTML += `
+<div class="product-card">
+
+<img src="${product.image}"
+class="product-image">
+
+<div class="product-content">
+
+<div class="product-category">
+${product.category}
+</div>
+
+<div class="product-name">
+${product.name}
+</div>
+
+<div class="product-description">
+${product.description}
+</div>
+
+<div class="product-price">
+${product.price}
+</div>
+
+</div>
+</div>
+`;
+
+});
+
+}
+
+renderProducts(products);
+
+function filterProducts(){
+
+const search =
+document.getElementById("searchInput")
+.value.toLowerCase();
+
+const category =
+document.getElementById("categoryFilter")
+.value;
+
+const filtered =
+products.filter(product => {
+
+const matchesSearch =
+product.name.toLowerCase()
+.includes(search);
+
+const matchesCategory =
+category === "" ||
+product.category === category;
+
+return matchesSearch &&
+matchesCategory;
+
+});
+
+renderProducts(filtered);
+
+}
+
+document
+.getElementById("searchInput")
+.addEventListener("keyup", filterProducts);
+
+document
+.getElementById("categoryFilter")
+.addEventListener("change", filterProducts);
+
+</script>
+
+</body>
+</html>
+```
